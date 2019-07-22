@@ -83,7 +83,112 @@ namespace CS_Version
             }
             return ans;
         }
+        /// <summary>
+        /// 7. 整数反转
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public int Reverse(int x)
+        {
+            int res = 0;
+            bool m = false;
+            m = x < 0;
+            while (x != 0)
+            {
+                int pop = x % 10;
+                x /= 10;
+                if (res > int.MaxValue / 10 || (res == int.MaxValue / 10 && pop > 7)) return 0;
+                if (res < int.MinValue / 10 || (res == int.MinValue / 10 && pop < -8)) return 0;
+                res = res * 10 + pop;
+            }
+            return res;
+        }
+        /// <summary>
+        /// 6. Z 字形变换
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="numRows"></param>
+        /// <returns></returns>
+        public string Convert(string s, int numRows)
+        {
+            if (numRows == 1) return s;
+            List<StringBuilder> rows = new List<StringBuilder>();
+            for (int i = 0; i < Math.Min(numRows, s.Length); i++)
+            {
+                rows.Add(new StringBuilder());
+            }
+            int curRow = 0;
+            bool goingDown = false;
+            foreach (char c in s)
+            {
+                rows[curRow].Append(c);
+                if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;
+                curRow += goingDown ? 1 : -1;
+            }
+            StringBuilder res = new StringBuilder();
+            foreach (StringBuilder build in rows)
+            {
+                res.Append(build);
+            }
+            return res.ToString();
+        }
+        /// <summary>
+        /// 9. 回文数
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public bool IsPalindrome(int x)
+        {
+            if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+            int Num = 0;
+            while (x > Num)
+            {
+                Num = Num * 10 + x % 10;
+                x /= 10;
+            }
 
+            return x == Num || x == Num / 10;
+        }
+        /// <summary>
+        /// 14. 最长公共前缀
+        /// </summary>
+        /// <param name="strs"></param>
+        /// <returns></returns>
+        public string LongestCommonPrefix(string[] strs)
+        {
+            if (strs.Length == 0) return string.Empty;
+            for (int i = 0; i < strs[0].Length; i++)
+            {
+                char mark = strs[0][i];
+                foreach (string str in strs)
+                {
+                    if (i == str.Length || str[i] != mark)
+                        return strs[0].Substring(0, i);
+                }
+            }
+            return strs[0];
+        }
+        /// <summary>
+        /// 20. 有效的括号
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public bool IsValid(string s)
+        {
+            if (s.Length % 2 != 0) return false;
+            Stack<char> stc = new Stack<char>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '(') stc.Push(')');
+                else if (s[i] == '{') stc.Push('}');
+                else if (s[i] == '[') stc.Push(']');
+                else if (stc == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         /// <summary>
         /// 100. 相同的树
         /// </summary>
